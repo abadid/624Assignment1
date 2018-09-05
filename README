@@ -155,6 +155,8 @@ size or the maximum outstanding requests parameter. You must report
 throughput for all four execution models (process-per-request,
 thread-per-request, thread-pool, and process-pool). Measure throughput
 at the following parameter values [1, 2, 4, 8, 16, 32, 64, 128]. 
+As mentioned above, we have provided test scripts (lowcontention.sh and 
+high contention.sh) which varies all of these parameters for you.
 
 Report these throughput measurements under both high contention and
 low contention in text files "high-contention.txt" and
