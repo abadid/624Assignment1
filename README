@@ -1,9 +1,5 @@
 CMSC828N: Assignment 1
 
---------------------------------------------------------------------------------------------------------------------------------------------
-If you have any questions about this assignment, please email ren@cs.umd.edu or make an appointment with him. His office number is AVW 3219.
---------------------------------------------------------------------------------------------------------------------------------------------
-
 In this assignment, you will get some hands-on experience exploring the performance and architectural differences between database system process models. The main challenge of this assignment will be to understand existing code that we are providing you. By reading though this code, we hope you will get a sense of some of the basic implementation differences between thread-based and process-based process models. The amount of code you have to write for this assignment is quite small. In short, we are providing implementations of thread-per worker and process-per-worker process models (see chapter two of the "Architecture of a Database System" paper that we read last week) over a simple database stored as an array in main memory. Your goal in this assignment is to implement the process-pool and thread-pool variants of these process models. Even for these variants, we have written most of the code for you --- we have just left the most interesting parts of the code left for you to implement. However, if you do not understand the thread-per worker and process-per-worker code that we have provided you, you will likely be unable to add the missing code (even though it is small) for the thread-pool and process-pool variants. 
 
 Aside from writing code, this assignment involves running some performance experiments, and answering some questions we ask below.
