@@ -22,7 +22,7 @@ below).
 
 Synchronization -- 
 This assignment uses semaphores to mediate inter-thread and
-inter-process communication. Semaphores are covered (at least theoretically) in intro to systems programming courses that you hopefully have already taken. We recommend you read through 
+inter-process communication. Semaphores are usually covered (at least theoretically) in intro to systems programming courses. We recommend you read through 
 http://pages.cs.wisc.edu/~remzi/Classes/537/Fall2008/Notes/threads-semaphores.txt for some background on semaphores if you have not seen them in the past.
 
 WARNING: Semaphores are a critical part of this assignment. You will
