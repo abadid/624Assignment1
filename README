@@ -96,7 +96,7 @@ implementations, specify the appropriate argument to exp_type and
 additionally specify the number of max_outstanding requests. 
 
 The executable will run for about a minute, and measure the throughput
-(requests per second) of the specified execution model. The measure
+(requests per second) of the specified execution model. The measured
 throughput is written to a file, "results.txt". 
 
 We have also provided code to test each of your implementations. In
