@@ -118,12 +118,13 @@ requests to block frequently each other. On the other hand, under low
 contention, the probability of two requests blocking due to a conflict
 is very low. 
 
-Please put “killall build/db” in your test scripts for assignment 1, otherwise
-the processes that were spun off by the assignment resulted in hundreds of
+Please put “killall build/db” in your test scripts, otherwise
+the processes that were spun off by the assignment will result in hundreds of
 zombie processes on machines. If you could please log into the junkfood machines
 that you were using and make sure that you have killed any db processes that you started, 
 this would allow us to be good citizens avoid pissing off the admins.
-We have provide test scripts (lowcontention.sh and high contention.sh) that you can use, and you can make any changes you want for your own tests.
+We have provided test scripts (lowcontention.sh and high contention.sh) that you can use, and you can make any changes you want for your own tests.
+Those scripts already have “killall build/db” in them.
 
 Hints -- 
 The header files corresponding to the four execution models contain
