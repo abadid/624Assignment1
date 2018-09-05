@@ -1,0 +1,196 @@
+CMSC828N: Assignment 1
+
+--------------------------------------------------------------------------------------------------------------------------------------------
+If you have any questions about this assignment, please email ren@cs.umd.edu or make an appointment with him. His office number is AVW 3219.
+--------------------------------------------------------------------------------------------------------------------------------------------
+
+In this assignment, you will get some hands-on experience exploring the performance and architectural differences between database system process models. The main challenge of this assignment will be to understand existing code that we are providing you. By reading though this code, we hope you will get a sense of some of the basic implementation differences between thread-based and process-based process models. The amount of code you have to write for this assignment is quite small. In short, we are providing implementations of thread-per worker and process-per-worker process models (see chapter two of the "Architecture of a Database System" paper that we read last week) over a simple database stored as an array in main memory. Your goal in this assignment is to implement the process-pool and thread-pool variants of these process models. Even for these variants, we have written most of the code for you --- we have just left the most interesting parts of the code left for you to implement. However, if you do not understand the thread-per worker and process-per-worker code that we have provided you, you will likely be unable to add the missing code (even though it is small) for the thread-pool and process-pool variants. 
+
+Aside from writing code, this assignment involves running some performance experiments, and answering some questions we ask below.
+
+This assignment --- especially the performance experiments --- should be performed on the junkfood machines. You can code/debug the assignment on skittles, starburst, or twinkie. But please run your official set of performance experiments on twinkie.cs.umd.edu.
+
+Execution models --
+The assignment uses linux's pthreads to implement the
+thread-per-request and thread-pool models. http://www.yolinux.com/TUTORIALS/LinuxTutorialPosixThreads.html provides a good
+reference for programming with pthreads on linux. 
+The assignment codebase only uses pthreads for managing threads' lifecycles
+(thread creation and deletion). Inter-thread synchronization is
+mediated via semaphores (see below), _not_ pthread mutexes and signals. 
+
+The process-per-request and process-pool models are implemented using
+linux processes. Processes communicate with each other using shared memory
+segments via mmap'ed pages. (The provided database class
+implementation has a few example uses of mmap -- see
+below). 
+
+Synchronization -- 
+This assignment uses semaphores to mediate inter-thread and
+inter-process communication. Semaphores are covered (at least theoretically) in intro to systems programming courses that you hopefully have already taken. We recommend you read through 
+http://pages.cs.wisc.edu/~remzi/Classes/537/Fall2008/Notes/threads-semaphores.txt for some background on semaphores if you have not seen them in the past.
+
+WARNING: Semaphores are a critical part of this assignment. You will
+struggle without a basing understanding of the concepts outlined in
+http://pages.cs.wisc.edu/~remzi/Classes/537/Fall2008/Notes/threads-semaphores.txt. 
+
+Codebase --
+The include/utils.h file contains several flags you may find useful
+for correctly initializing mmap'ed pages and semaphores.
+
+The assignment models a database processing requests that manipulate
+several records.
+
+The database consists of an array of 1000-byte-sized records. The
+database exports three important functions: get_record,
+lock_record, and unlock_record. get_record returns a reference to a
+record. lock_record and unlock_record serve as mutex-locks, giving the
+calling process or thread exclusive access to a particular record. 
+
+Each request updates several records in the database. In order to run
+a request, a process or thread calls a request's execute function in
+order to process it. 
+
+Launcher is the base class from which each execution
+model will derive (process_pool_launcher, process_launcher,
+thread_pool_launcher, and thread_launcher). Each of these classes
+override launcher's execute_request function. 
+
+Your task is to complete the implementations of the
+process_pool_launcher, and thread_pool_launcher classes. Look for
+"YOUR CODE HERE" annotations in the comments in
+src/process_pool_launcher.cc and src/thread_pool_launcher.cc. As mentioned above, we have
+provided implementations of the process-per-request, and
+thread-per-request execution models in process_launcher.cc, and
+thread_launcher.cc, respectively. You should use these implementations as
+references while building your thread-pool, and process-pool 
+implementations. 
+
+The pool-based schemes (thread- and process-pools) take a "pool size"
+parameter as input (specified in their constructors). The parameter is
+used to limit the maximum number of threads and processes available to
+execute requests. 
+
+The non-pool-based schemes (thread- and process-per-request) take a
+"max outstanding" parameter as input (again, specified in their
+constructors). This parameter is used to limit the maximum number of
+in-flight requests at any given time. 
+
+The "pool size" and "max outstanding" parameters above are specified
+as command-line arguments, and will be used to measure the relative
+performance of each of the four execution models. 
+
+The provided makefile will compile your executable into build/db. The
+executable takes parameters --exp_type, --max_outstanding, and
+--pool_size. Each of these three parameters take _integers_ as
+arguments. The command-line parsing code is not robust enough to deal
+with incorrectly specified parameter arguments!
+
+--exp_type specifies the type of execution model. 
+0 -- PROCESS_POOL
+1 -- PROCESS_PER_REQUEST
+2 -- THREAD_POOL
+3 -- THREAD_PER_REQUEST
+
+If you wish to test your process- or thread-pool implementations,
+specify the appropriate argument to exp_type and additionally specify
+a pool size (as an integer). 
+
+If you wish to test your process- or thread-per-request
+implementations, specify the appropriate argument to exp_type and
+additionally specify the number of max_outstanding requests. 
+
+The executable will run for about a minute, and measure the throughput
+(requests per second) of the specified execution model. The measure
+throughput is written to a file, "results.txt". 
+
+We have also provided code to test each of your implementations. In
+order to run a test, run the appropriately configured execution
+model with the --test option. If provided with the --test option, the
+executable will check for correctness using a serial execution model. 
+Running your code with the --test option will not measure throughput. 
+
+Finally, you will need to report measurements for running requests
+under varying levels of conflicts between requests. Two requests conflict if they they try to access the same record in the database. We have provided a
+--contention option to induce conflicts among transactions. To
+run an experiment under high contention (lots of conflicts), add the 
+--contention flag as an argument to the executable. Experiments run
+under low contention (few conflicts) without the --contention flag.
+
+If a pair of requests conflict, then one of the requests block while
+the other makes progress. Thus, under high contention, we would expect
+requests to block frequently each other. On the other hand, under low
+contention, the probability of two requests blocking due to a conflict
+is very low. 
+
+Please put “killall build/db” in your test scripts for assignment 1, otherwise
+the processes that were spun off by the assignment resulted in hundreds of
+zombie processes on machines. If you could please log into the junkfood machines
+that you were using and make sure that you have killed any db processes that you started, 
+this would allow us to be good citizens avoid pissing off the admins.
+We have provide test scripts (lowcontention.sh and high contention.sh) that you can use, and you can make any changes you want for your own tests.
+
+Hints -- 
+The header files corresponding to the four execution models contain
+the appropriate structures for communication between the main launcher
+thread, and processes/threads used to execute requests. 
+
+The thread- and process-pools are managed via a free-list. Each
+process or thread has a corresponding process_state or thread_state
+struct (include/process_pool_launcher.h and
+include/thread_pool_launcher.h). These structs are linked together
+into a free-list, which is used to indicate whether or not a process
+is currently in use. 
+
+Deliverables --
+- Compiled and working code for the process-pool, and thread-pool
+execution models. We will evaluate your code using the --test option
+described above. Each execution model will be tested at pool sizes
+of 1, 2, 4, 8, 16, 32, 64, 128. Note that passing
+these test cases is the only way to earn credit for your code. We will
+award no points for code that does not pass _all_ test cases.
+
+================================================================================
+20 points for each execution model. Total 40 points.
+================================================================================
+
+- For each execution model, report throughput while varying the pool
+size or the maximum outstanding requests parameter. You must report
+throughput for all four execution models (process-per-request,
+thread-per-request, thread-pool, and process-pool). Measure throughput
+at the following parameter values [1, 2, 4, 8, 16, 32, 64, 128]. 
+
+Report these throughput measurements under both high contention and
+low contention in text files "high-contention.txt" and
+"low-contention.txt" respectively.
+
+Each line of the file should begin with the name of the execution model, and the
+list of measured throughput values (in increasing order of pool size
+or max outstanding requests). For example:
+process_pool 2000 3000 4000 5000 6000 7000 ...
+
+- Provide a brief explanation (between three to four paragraphs) for
+the throughput trends you observe in a separate file,
+"responses.txt". In particular, explain the differences between each
+process model --- why do some models get higher throughput than other models? Which process model is the fastest and why is it the fastest? Which one is slowest and why is it slowest? Why are the ones in the middle slower/faster than the two at the extremes? How and why does throughout change as the maximum number of outstanding requests or pool size change? In addition, explain the differences between high-contention and low-contention experiments. 
+
+================================================================================
+44 points for performance results / analysis
+================================================================================
+
+Finally, answer each of the following questions briefly
+(at most two paragraphs per question) in "responses.txt". 
+
+Questions --
+1) The process-pool implementation must copy a request into a process'
+request buffer. The process-per-request implementation, however, does
+not need to copy or pass requests between processes. Why?
+
+2) The process-pool implementation requires a request to be copied
+into a process-local buffer before the request can be executed. On the
+other hand, the thread-pool implementation can simply use a pointer to
+the appropriate request. Why?
+
+================================================================================
+8 points for each response. Total 16 points.
+================================================================================
+
