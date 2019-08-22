@@ -1,7 +1,7 @@
 #!/bin/bash
 
 echo
-echo '========== PROCESS POOL WITHOUT CONTENTION =========='
+echo '========== PROCESS POOL WITH CONTENTION =========='
 build/db --contention  --exp_type 0 --pool_size 1;   killall db
 build/db --contention  --exp_type 0 --pool_size 2;   killall db
 build/db --contention  --exp_type 0 --pool_size 4;   killall db
@@ -12,7 +12,7 @@ build/db --contention  --exp_type 0 --pool_size 64;  killall db
 build/db --contention  --exp_type 0 --pool_size 128; killall db
 echo
 
-echo '========== PROCESS PER REQUEST WITHOUT CONTENTION =========='
+echo '========== PROCESS PER REQUEST WITH CONTENTION =========='
 build/db --contention  --exp_type 1 --max_outstanding 1;   killall db
 build/db --contention  --exp_type 1 --max_outstanding 2;   killall db
 build/db --contention  --exp_type 1 --max_outstanding 4;   killall db
@@ -23,7 +23,7 @@ build/db --contention  --exp_type 1 --max_outstanding 64;   killall db
 build/db --contention  --exp_type 1 --max_outstanding 128;   killall db
 echo
 
-echo '========== THREAD POOL WITHOUT CONTENTION =========='
+echo '========== THREAD POOL WITH CONTENTION =========='
 build/db --contention  --exp_type 2 --pool_size 1;   killall db
 build/db --contention  --exp_type 2 --pool_size 2;   killall db
 build/db --contention  --exp_type 2 --pool_size 4;   killall db
@@ -34,7 +34,7 @@ build/db --contention  --exp_type 2 --pool_size 64;   killall db
 build/db --contention  --exp_type 2 --pool_size 128;   killall db
 echo
 
-echo '========== THREAD PER REQUEST WITHOUT CONTENTION =========='
+echo '========== THREAD PER REQUEST WITH CONTENTION =========='
 build/db --contention  --exp_type 3 --max_outstanding 1;   killall db
 build/db --contention  --exp_type 3 --max_outstanding 2;   killall db
 build/db --contention  --exp_type 3 --max_outstanding 4;   killall db
