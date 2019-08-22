@@ -19,7 +19,7 @@ thread_pool_launcher::thread_pool_launcher(int pool_sz)
         /* 
          * YOUR CODE HERE
          * 
-         * Initialize _launcher_sem and _free_list_sem using sem_init.
+         * Initialize _done_sem and _free_list_sem using sem_init.
          * 
          * _free_list_sem protects the free-list of thread_states, which 
          * corresponds to the list of idle threads. 
@@ -28,7 +28,7 @@ thread_pool_launcher::thread_pool_launcher(int pool_sz)
          * 
          * Hint: Since both _free_list_sem, and _done_sem are shared among 
          * threads of a single process, the second argument to sem_init must be 
- +       * set appropriately. 
+         * set appropriately. 
          */
 
 
