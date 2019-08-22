@@ -49,7 +49,7 @@ order to process it.
 Launcher is the base class from which each execution
 model will derive (process_pool_launcher, process_launcher,
 thread_pool_launcher, and thread_launcher). Each of these classes
-override launcher's execute_request function. 
+override the launcher's execute_request function. 
 
 Your task is to complete the implementations of the
 process_pool_launcher, and thread_pool_launcher classes. Look for
@@ -114,7 +114,7 @@ under low contention (few conflicts) without the --contention flag.
 
 If a pair of requests conflict, then one of the requests block while
 the other makes progress. Thus, under high contention, we would expect
-requests to block frequently each other. On the other hand, under low
+requests to block each other frequently. On the other hand, under low
 contention, the probability of two requests blocking due to a conflict
 is very low. 
 
@@ -122,8 +122,8 @@ Please put “killall build/db” in your test scripts, otherwise
 the processes that were spun off by the assignment will result in hundreds of
 zombie processes on machines. If you could please log into the junkfood machines
 that you were using and make sure that you have killed any db processes that you started, 
-this would allow us to be good citizens avoid pissing off the admins.
-We have provided test scripts (lowcontention.sh and high contention.sh) that you can use, and you can make any changes you want for your own tests.
+this would allow us to be good citizens, and avoid angering the admins.
+We have provided test scripts (lowcontention.sh and highcontention.sh) that you can use, and you can make any changes you want for your own tests.
 Those scripts already have “killall build/db” in them.
 
 Hints -- 
