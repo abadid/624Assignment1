@@ -4,7 +4,9 @@ In this assignment, you will get some hands-on experience exploring the performa
 
 Aside from writing code, this assignment involves running some performance experiments, and answering some questions we ask below.
 
-This assignment --- especially the performance experiments --- should be performed on the submit server (submit.cs.umd.edu). You can code/debug the assignment on any machine you have access to. But please run your official set of performance experiments on the submit server.
+This assignment --- especially the performance experiments --- should be performed on heave2 using an account that should have been created for you there. 
+You can code/debug the assignment on any machine you have access to. But please run your official set of performance experiments on heave2.
+You will submit the assignment to ELMs via the instructions found there.
 
 Execution models --
 The assignment uses linux's pthreads to implement the
