@@ -4,7 +4,7 @@ In this assignment, you will get some hands-on experience exploring the performa
 
 Aside from writing code, this assignment involves running some performance experiments, and answering some questions we ask below.
 
-This assignment --- especially the performance experiments --- should be performed on heave2 using an account that should have been created for you there. 
+This assignment --- especially the performance experiments --- should be performed on heave2 using an account that should have been created for you there.
 You can code/debug the assignment on any machine you have access to. But please run your official set of performance experiments on heave2.
 You will submit the assignment to ELMs via the instructions found there.
 
@@ -147,14 +147,6 @@ described above. Each execution model will be tested at pool sizes
 of 1, 2, 4, 8, 16, 32, 64, 128. Note that passing
 these test cases is the only way to earn credit for your code. We will
 award no points for code that does not pass _all_ test cases.
-There are 64 public tests that will test your code for correctness.
-The submit server expects a zip file with the include/ and src/ directories.
-
-The submit server has 64 release tests which you will need to manually trigger once your code is tested.
-These will run the experiments for each configuration and output the throughput for each one. Note that
-these tests _will_ fail-- that's okay. The tests are only there to output the throughput for each case.
-Running the release tests to get the throughput experiments will take a long time (about 2 hours)
-Please _only_ run these tests if your code passes all public tests.
 
 ================================================================================
 20 points for each execution model. Total 40 points.
